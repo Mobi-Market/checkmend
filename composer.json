@@ -1,0 +1,30 @@
+{
+    "name": "autumndev/checkmend",
+    "description": "Checkmend API laravel package",
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Scott-David Jones",
+            "email": "scott.jones@autumndev.co.uk"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Autumndev\\Checkmend\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Autumndev\\Checkmend\\CheckmendServiceProvider"
+            ],
+            "aliases": {
+                "Checkmend": "Autumndev\\Checkmend\\CheckmendFacade"
+            }
+        }
+    }
+}
