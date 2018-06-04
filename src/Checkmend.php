@@ -138,9 +138,9 @@ class Checkmend
      * @param array  $dataPackage
      * @param string $apiEndPoint
      * 
-     * @return string | Excpetion
+     * @return stdClass | Excpetion
      */
-    private function sendAPIRequest(array $dataPackage, string $apiEndPoint): string
+    private function sendAPIRequest(array $dataPackage, string $apiEndPoint): stdClass
     {
         $requestBody = json_encode($dataPackage);
         $response = $this->client->post($apiEndPoint, [
