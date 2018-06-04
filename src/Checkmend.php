@@ -9,6 +9,7 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\MessageFormatter;
 use Illuminate\Support\Facades\Log;
 use Autumndev\Checkmend\CheckmendInvalidImeiException;
+use Autumndev\Checkmend\Entities\CheckmendDueDiligenceResult;
 use Exception;
 use StdClass;
 
@@ -102,7 +103,7 @@ class Checkmend
             'category' => [1,2],
         ];
 
-        return json_decode(
+        return new CheckmendDueDiligenceResult(
             $this->sendApiRequest($dataPackage, "/duediligence/{$this->storeId}/{$imei}")
         );
     }
@@ -128,9 +129,7 @@ class Checkmend
             'serials' => $serials
         ];
         
-        return json_decode(
-            $this->sendApiRequest($dataPackage, 'makemodelext')
-        );
+        return $this->sendApiRequest($dataPackage, 'makemodelext');
     }
 
     /**
@@ -143,26 +142,17 @@ class Checkmend
      */
     private function sendAPIRequest(array $dataPackage, string $apiEndPoint): string
     {
-        try {
-
-            $requestBody = json_encode($dataPackage);
-            $response = $this->client->post($apiEndPoint, [
-                'body'      => $requestBody,
-                'headers'   => [
-                    'Authorization' => 'Basic '.$this->generateAuthHeader($requestBody),
-                    'Accept'        => 'application/json',
-                    'Content-Type'  => 'application/json'
-                ]
-            ]);
-            
-            return (string) $response->getBody();
-        } catch (Exception $e) {
-            $error = new StdClass;
-            $error->result = 'Error';
-            $error->error = $e->getMessage();
-
-            return json_encode($error);
-        }
+        $requestBody = json_encode($dataPackage);
+        $response = $this->client->post($apiEndPoint, [
+            'body'      => $requestBody,
+            'headers'   => [
+                'Authorization' => 'Basic '.$this->generateAuthHeader($requestBody),
+                'Accept'        => 'application/json',
+                'Content-Type'  => 'application/json'
+            ]
+        ]);
+        
+        return json_decode((string) $response->getBody());
     }
 
     /**
