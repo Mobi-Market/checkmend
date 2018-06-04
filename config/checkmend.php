@@ -8,4 +8,10 @@ return [
 	'storeId'           => env('CHECKMEND_STORE_ID'),
 	'logging'           => env('CHECKMEND_ENABLE_LOGS', false),
 	'timeout'           => env('CHECKMEND_TIMEOUT', 5.0),
+	'reseller'			=> env('CHECKMEND_RESELLER', false),
+	'resellerDetails'	=> [
+		'name'			=> '',
+		'address' 		=> '',
+		'contactnumber' => '',
+	]
 ];

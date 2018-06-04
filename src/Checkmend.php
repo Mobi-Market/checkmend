@@ -35,6 +35,14 @@ class Checkmend
      * @param integer
      */
     private $storeId;
+    /**
+     * @param bool
+     */
+    private $reseller;
+    /**
+     * @param array
+     */
+    private $resellerDetails;
 
     /**
      * Sets up require parameters for the api
@@ -53,7 +61,9 @@ class Checkmend
         int $organisationId, 
         int $storeId,
         bool $logEnabled,
-        float $timeout
+        float $timeout,
+        bool $reseller,
+        array $resellerDetails
     ) {
         $handlerStack = HandlerStack::create();
         if ($logEnabled === true) {
@@ -83,6 +93,8 @@ class Checkmend
         $this->secret           = $secret;
         $this->organisationId   = $organisationId;
         $this->storeId          = $storeId;
+        $this->reseller         = $reseller;
+        $this->resellerDetails  = $resellerDetails;
     }
 
     /**
@@ -142,6 +154,13 @@ class Checkmend
      */
     private function sendAPIRequest(array $dataPackage, string $apiEndPoint): stdClass
     {
+        if ($this->reseller == true) {
+            $dataPackage['moreinformation '] = 'Y';
+            $dataPackage['more'] = $this->resellerDetails;
+        }
+        
+        $data['inpossession '] = 'Y';
+
         $requestBody = json_encode($dataPackage);
         $response = $this->client->post($apiEndPoint, [
             'body'      => $requestBody,

@@ -21,13 +21,15 @@ class CheckmendServiceProvider extends ServiceProvider
 
             $config = $app->make('config');
 
-            $baseUri        = $config->get('checkmend.baseURI');
-            $partnerId      = $config->get('checkmend.partnerId');
-            $secret         = $config->get('checkmend.secret');
-            $organisationId = $config->get('checkmend.organisationId');
-            $storeId        = $config->get('checkmend.storeId');
-            $logging        = $config->get('checkmend.logging');
-            $timeout        = $config->get('checkmend.timeout');
+            $baseUri            = $config->get('checkmend.baseURI');
+            $partnerId          = $config->get('checkmend.partnerId');
+            $secret             = $config->get('checkmend.secret');
+            $organisationId     = $config->get('checkmend.organisationId');
+            $storeId            = $config->get('checkmend.storeId');
+            $logging            = $config->get('checkmend.logging');
+            $timeout            = $config->get('checkmend.timeout');
+            $reseller           = $config->get('checkmend.reseller');
+            $resellerDetails    = $config->get('checkmend.resellerDetails');
 
             return new Checkmend(
                 $baseUri, 
@@ -36,7 +38,9 @@ class CheckmendServiceProvider extends ServiceProvider
                 $organisationId,
                 $storeId,
                 $logging,
-                $timeout
+                $timeout,
+                $reseller,
+                $resellerDetails
             );
         });
     }
