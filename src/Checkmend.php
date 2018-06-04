@@ -9,6 +9,8 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\MessageFormatter;
 use Illuminate\Support\Facades\Log;
 use Autumndev\Checkmend\CheckmendInvalidImeiException;
+use Exception;
+use StdClass;
 
 class Checkmend
 {
@@ -49,7 +51,8 @@ class Checkmend
         string $secret, 
         int $organisationId, 
         int $storeId,
-        bool $logEnabled
+        bool $logEnabled,
+        float $timeout
     ) {
         $handlerStack = HandlerStack::create();
         if ($logEnabled === true) {
@@ -70,7 +73,7 @@ class Checkmend
             // Base URI is used with relative requests
             'base_uri' => $baseUri,
             // You can set any number of default request options.
-            'timeout'  => 2.0,
+            'timeout'  => $timeout,
             // handler stack for logging purposes
             'handler' => $handlerStack,
         ]);
@@ -86,9 +89,9 @@ class Checkmend
      *
      * @param string $imei
      * 
-     * @return string | Excpetion
+     * @return object | Excpetion
      */
-    public function dueDiligence(string $imei)
+    public function dueDiligence(string $imei): object
     {
         //validate IMEI
         if (!$this->validateIMEI($imei)) {
@@ -99,16 +102,18 @@ class Checkmend
             'category' => [1,2],
         ];
 
-        return $this->sendApiRequest($dataPackage, "/duediligence/{$this->storeId}/{$imei}");
+        return json_decode(
+            $this->sendApiRequest($dataPackage, "/duediligence/{$this->storeId}/{$imei}")
+        );
     }
     /**
      * Make & Model Extended API Calls
      *
      * @param array $serials
      * 
-     * @return string | Excpetion
+     * @return object | Excpetion
      */
-    public function makeModelExt(array $serials)
+    public function makeModelExt(array $serials): object
     {
         // check each serial is a valid IMEI
         foreach ($serials as $serial) {
@@ -123,7 +128,9 @@ class Checkmend
             'serials' => $serials
         ];
         
-        return $this->sendApiRequest($dataPackage, 'makemodelext');
+        return json_decode(
+            $this->sendApiRequest($dataPackage, 'makemodelext')
+        );
     }
 
     /**
@@ -134,19 +141,28 @@ class Checkmend
      * 
      * @return string | Excpetion
      */
-    private function sendAPIRequest(array $dataPackage, string $apiEndPoint)
+    private function sendAPIRequest(array $dataPackage, string $apiEndPoint): string
     {
-        $requestBody = json_encode($dataPackage);
-        $response = $this->client->post($apiEndPoint, [
-            'body'      => $requestBody,
-            'headers'   => [
-                'Authorization' => 'Basic '.$this->generateAuthHeader($requestBody),
-                'Accept'        => 'application/json',
-                'Content-Type'  => 'application/json'
-            ]
-        ]);
+        try {
 
-        return $response->getBody()->getContents();
+            $requestBody = json_encode($dataPackage);
+            $response = $this->client->post($apiEndPoint, [
+                'body'      => $requestBody,
+                'headers'   => [
+                    'Authorization' => 'Basic '.$this->generateAuthHeader($requestBody),
+                    'Accept'        => 'application/json',
+                    'Content-Type'  => 'application/json'
+                ]
+            ]);
+            
+            return (string) $response->getBody();
+        } catch (Exception $e) {
+            $error = new StdClass;
+            $error->result = 'Error';
+            $error->error = $e->getMessage();
+
+            return json_encode($error);
+        }
     }
 
     /**
@@ -156,7 +172,7 @@ class Checkmend
      * 
      * @return string
      */
-    private function generateAuthHeader(string $requestBody)
+    private function generateAuthHeader(string $requestBody): string
     {
         if (!json_encode($requestBody)) {
             throw new CheckmendInvalidRequestBody();
@@ -173,7 +189,7 @@ class Checkmend
      * 
      * @return bool
      */
-    private function validateIMEI(string $imei)
+    private function validateIMEI(string $imei): bool
     {
         if (preg_match('/^[0-9]{15}$/', $imei)) {
             

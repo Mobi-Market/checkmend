@@ -27,6 +27,7 @@ class CheckmendServiceProvider extends ServiceProvider
             $organisationId = $config->get('checkmend.organisationId');
             $storeId        = $config->get('checkmend.storeId');
             $logging        = $config->get('checkmend.logging');
+            $timeout        = $config->get('checkmend.timeout');
 
             return new Checkmend(
                 $baseUri, 
@@ -34,7 +35,8 @@ class CheckmendServiceProvider extends ServiceProvider
                 $secret,
                 $organisationId,
                 $storeId,
-                $logging
+                $logging,
+                $timeout
             );
         });
     }
