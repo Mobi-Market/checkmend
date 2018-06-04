@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Autumndev\Checkmend;
 
 use GuzzleHttp\Client;
-use Guzzle\Log\MessageFormatter;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\MessageFormatter;
 use Illuminate\Support\Facades\Log;
 use Autumndev\Checkmend\CheckmendInvalidImeiException;
 
@@ -53,8 +55,14 @@ class Checkmend
         if ($logEnabled === true) {
             $handlerStack->push(
                 Middleware::log(
-                    Log::getMonolog,
+                    Log::getMonolog(),
                     new MessageFormatter('{req_body} - {res_body}')
+                )
+            ); 
+            $handlerStack->push(
+                Middleware::log(
+                    Log::getMonolog(),
+                    new MessageFormatter('{uri} - {method} - {code}')
                 )
             );   
         }
@@ -91,7 +99,7 @@ class Checkmend
             'category' => [1,2],
         ];
 
-        return $this->sendApiRequest($dataPackage, "/duediligence/{$this->storeid}/{$imei}");
+        return $this->sendApiRequest($dataPackage, "/duediligence/{$this->storeId}/{$imei}");
     }
     /**
      * Make & Model Extended API Calls
@@ -167,7 +175,7 @@ class Checkmend
      */
     private function validateIMEI(string $imei)
     {
-        if (ereg('^[0-9]{15}$', $imei)) {
+        if (preg_match('/^[0-9]{15}$/', $imei)) {
             
             for ($i = 0, $sum = 0; $i < 14; $i++) {
                 $tmp = $imei[$i] * (($i%2) + 1 );

@@ -33,12 +33,13 @@ class CheckmendServiceProvider extends ServiceProvider
                 $partnerId, 
                 $secret,
                 $organisationId,
-                $storeId
+                $storeId,
+                $logging
             );
         });
     }
 
     public function provides() {
-        return ['mongo'];
+        return ['checkmend'];
     }
 }
