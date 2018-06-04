@@ -90,9 +90,9 @@ class Checkmend
      *
      * @param string $imei
      * 
-     * @return stdClass | Excpetion
+     * @return CheckmendDueDiligenceResult | Excpetion
      */
-    public function dueDiligence(string $imei): stdClass
+    public function dueDiligence(string $imei): CheckmendDueDiligenceResult
     {
         //validate IMEI
         if (!$this->validateIMEI($imei)) {
