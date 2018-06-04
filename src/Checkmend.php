@@ -89,9 +89,9 @@ class Checkmend
      *
      * @param string $imei
      * 
-     * @return object | Excpetion
+     * @return stdClass | Excpetion
      */
-    public function dueDiligence(string $imei): object
+    public function dueDiligence(string $imei): stdClass
     {
         //validate IMEI
         if (!$this->validateIMEI($imei)) {
@@ -111,9 +111,9 @@ class Checkmend
      *
      * @param array $serials
      * 
-     * @return object | Excpetion
+     * @return stdClass | Excpetion
      */
-    public function makeModelExt(array $serials): object
+    public function makeModelExt(array $serials): stdClass
     {
         // check each serial is a valid IMEI
         foreach ($serials as $serial) {
