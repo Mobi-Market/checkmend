@@ -152,7 +152,7 @@ class Checkmend
      * 
      * @return stdClass
      */
-    public function getCertificate(string $certificateId, string $url = null, bool $email = null): stdClass
+    public function getCertificate(string $certificateId, string $url = null, string $email = null): stdClass
     {
         $dataPackage = [];
         if ($url != null) {
@@ -163,7 +163,7 @@ class Checkmend
             $dataPackage['email'] = $email;
         }
         
-        return $this->sendApiRequest($dataPackage, "certificate/{$certificateId}");
+        return $this->sendApiRequest($dataPackage, "certificate/{$certificateId}", false);
     }
 
     /**
@@ -174,9 +174,9 @@ class Checkmend
      * 
      * @return stdClass | Excpetion
      */
-    private function sendAPIRequest(array $dataPackage, string $apiEndPoint): stdClass
+    private function sendAPIRequest(array $dataPackage, string $apiEndPoint, bool $incReseller = true): stdClass
     {
-        if ($this->reseller == true) {
+        if ($this->reseller === true && $incReseller === true) {
             $dataPackage['moreinformation '] = 'Y';
             $dataPackage['more'] = $this->resellerDetails;
         }

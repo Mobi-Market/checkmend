@@ -1,8 +1,8 @@
 <?php
 
-namespace Autumndev\Checkmend;
+namespace Autumndev\Checkmend\Exceptions;
 
-use Autumndev\Checkmend\CheckmendBaseException;
+use Autumndev\Checkmend\Exceptions\CheckmendBaseException;
 
 class CheckmendInvalidImeiException extends CheckmendBaseException 
 {

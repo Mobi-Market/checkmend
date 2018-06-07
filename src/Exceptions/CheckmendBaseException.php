@@ -1,6 +1,6 @@
 <?php
 
-namespace Autumndev\Checkmend;
+namespace Autumndev\Checkmend\Exceptions;
 
 use Exception;
 
