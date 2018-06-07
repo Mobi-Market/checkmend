@@ -143,6 +143,28 @@ class Checkmend
         
         return $this->sendApiRequest($dataPackage, 'makemodelext');
     }
+    /**
+     * Undocumented function
+     *
+     * @param string $certificateId
+     * @param string $url
+     * @param boolean $email
+     * 
+     * @return stdClass
+     */
+    public function getCertificate(string $certificateId, string $url = null, bool $email = null): stdClass
+    {
+        $dataPackage = [];
+        if ($url != null) {
+            $dataPackage['url'] = $url;
+        }
+
+        if ($email != null) {
+            $dataPackage['email'] = $email;
+        }
+        
+        return $this->sendApiRequest($dataPackage, "certificate/{$certificateId}");
+    }
 
     /**
      * performs the send request to the API
