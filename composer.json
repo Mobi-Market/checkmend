@@ -1,7 +1,7 @@
 {
     "name": "autumndev/checkmend",
     "description": "Checkmend API laravel package",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "require": {
         "guzzlehttp/guzzle": "^6.3"
     },
