@@ -25,5 +25,7 @@ Update the settings int he configuration file located at: .\config\checkmend.php
 
 ```php
 $result = Checkmend::dueDiligence($imei);
+// send certificate to email or url call back
+Checkmend::getCertificate($result->certid, $url, $email);
 $result = Checkmend::makeModelExt([$imei]);
 ```
