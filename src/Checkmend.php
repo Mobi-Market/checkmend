@@ -194,7 +194,15 @@ class Checkmend
             ]
         ]);
         
-        return json_decode((string) $response->getBody());
+        $r = json_decode((string) $response->getBody());
+        // certificate endpoint doesnt return anything
+        if (is_string($r)) {
+            $r = new stdClass;
+            $r->result = 'complete';
+            $r->certid = 'Check certificate email for certificate.';
+        }
+        
+        return $r;
     }
 
     /**
