@@ -180,9 +180,9 @@ class Checkmend
         if ($this->reseller === true && $incReseller === true) {
             $dataPackage['moreinformation '] = 'Y';
             $dataPackage['more'] = $this->resellerDetails;
+            $data['inpossession '] = 'Y';
         }
         
-        $data['inpossession '] = 'Y';
 
         $requestBody = json_encode($dataPackage);
         $response = $this->client->post($apiEndPoint, [
