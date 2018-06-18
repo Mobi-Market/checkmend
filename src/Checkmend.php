@@ -132,7 +132,7 @@ class Checkmend
         // check each serial is a valid IMEI
         foreach ($serials as $serial) {
             if (!$this->validateIMEI($imei)) {
-                throw new CheckmendInvalidImeiException();
+                throw new CheckmendInvalidImeiException('The IMEI supplied is not valid');
             }
         }
 
@@ -215,7 +215,7 @@ class Checkmend
     private function generateAuthHeader(string $requestBody): string
     {
         if (!json_encode($requestBody)) {
-            throw new CheckmendInvalidRequestBody();
+            throw new CheckmendInvalidRequestBody('The Request body was invalid.');
         }
         $base = $this->secret.$requestBody;
         $hash = sha1($base);
