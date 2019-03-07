@@ -109,7 +109,7 @@ class Checkmend
     {
         //validate IMEI
         if (!$this->validateIMEI($imei)) {
-            throw new CheckmendInvalidImeiException();
+            throw new CheckmendInvalidImeiException("IMEI: {$imei} is not valid");
         }
 
         $dataPackage = [
