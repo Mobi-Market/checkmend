@@ -239,5 +239,6 @@ class Checkmend
             }
             return (((10 - ($sum%10)) %10) == $imei[14]);
         }
+        return false;
     }
 }
