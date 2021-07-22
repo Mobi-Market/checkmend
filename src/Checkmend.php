@@ -71,14 +71,16 @@ class Checkmend
         if ($logEnabled === true) {
             $handlerStack->push(
                 Middleware::log(
-                    Log::getMonolog(),
-                    new MessageFormatter('{req_body} - {res_body}')
+                    Log::getLogger(),
+                    new MessageFormatter('{req_body} - {res_body}'),
+                    'debug'
                 )
             );
             $handlerStack->push(
                 Middleware::log(
-                    Log::getMonolog(),
-                    new MessageFormatter('{uri} - {method} - {code}')
+                    Log::getLogger(),
+                    new MessageFormatter('{uri} - {method} - {code}'),
+                    'debug'
                 )
             );
         }

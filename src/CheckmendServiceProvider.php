@@ -6,9 +6,13 @@ namespace Autumndev\Checkmend;
 
 use Illuminate\Support\ServiceProvider;
 use Autumndev\Checkmend\Checkmend;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class CheckmendServiceProvider extends ServiceProvider
+class CheckmendServiceProvider extends ServiceProvider implements DeferrableProvider
 {
+    /**
+     * @deprecated
+     */
     protected $defer = true;
 
     public function boot(): void
