@@ -2,24 +2,17 @@
 This package provides the Checkmend Due Diligence and Make and Model Extended API Calls for use in MobiMarket applications.
 
 # Installation
-Add the following to your composer.json
-```javascript
-"repositories":[
-    {
-        "type": "vcs",
-        "url" : "https://autumndev@bitbucket.org/autumndevops/checkmend.git"
-    }
-],
-"minimum-stability": "dev"
+Run
+```sh
+composer require mobi-market/checkmend
 ```
-Run ```composer update``` followed by ```compoaser dump```
 
-## Publishing confirguration file
+## Publishing configuration file
 ```
 php artisan vendor:publish --provider=Autumndev\Checkmend\CheckmendServiceProvider
 ```
 
-Update the settings int he configuration file located at: .\config\checkmend.php
+Update the settings int he configuration file located at: `.\config\checkmend.php`
 
 #Usage
 
