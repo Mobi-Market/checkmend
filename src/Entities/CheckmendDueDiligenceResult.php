@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Autumndev\Checkmend\Entities;
+
 use StdClass;
 
-class CheckmendDueDiligenceResult 
+class CheckmendDueDiligenceResult
 {
     public $result;
     public $certid;

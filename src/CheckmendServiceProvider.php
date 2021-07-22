@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Autumndev\Checkmend;
 
 use Illuminate\Support\ServiceProvider;
@@ -9,16 +11,17 @@ class CheckmendServiceProvider extends ServiceProvider
 {
     protected $defer = true;
 
-	public function boot() {
-		$this->publishes([
-			__DIR__.'/../config/checkmend.php' => config_path('checkmend.php'),
-		], 'checkmend');
+    public function boot(): void
+    {
+        $this->publishes([
+            __DIR__.'/../config/checkmend.php' => config_path('checkmend.php'),
+        ], 'checkmend');
     }
-    
-    public function register() {
-		$this->mergeConfigFrom( __DIR__.'/../config/checkmend.php', 'checkmend');
-        $this->app->singleton('checkmend', function($app) {
 
+    public function register(): void
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/checkmend.php', 'checkmend');
+        $this->app->singleton('checkmend', function ($app) {
             $config = $app->make('config');
 
             $baseUri            = $config->get('checkmend.baseURI');
@@ -32,8 +35,8 @@ class CheckmendServiceProvider extends ServiceProvider
             $resellerDetails    = $config->get('checkmend.resellerDetails');
 
             return new Checkmend(
-                $baseUri, 
-                $partnerId, 
+                $baseUri,
+                $partnerId,
                 $secret,
                 $organisationId,
                 $storeId,
@@ -45,7 +48,8 @@ class CheckmendServiceProvider extends ServiceProvider
         });
     }
 
-    public function provides() {
+    public function provides()
+    {
         return ['checkmend'];
     }
 }
