@@ -188,7 +188,7 @@ class Checkmend
      * @throws CheckmendInvalidRequestBody
      * @throws GuzzleException
      */
-    protected function sendAPIRequest(array $dataPackage, string $apiEndPoint, bool $incReseller = true): ?stdClass
+    protected function sendAPIRequest(array $dataPackage, string $apiEndPoint, bool $incReseller = true): stdClass
     {
         if ($this->reseller === true && $incReseller === true) {
             $dataPackage['moreinformation '] = 'Y';
@@ -213,11 +213,9 @@ class Checkmend
             $r = new stdClass();
             $r->result = 'complete';
             $r->certid = 'Check certificate email for certificate.';
-
-            return $r;
         }
 
-        return null;
+        return $r;
     }
 
     /**
